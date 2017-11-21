@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script type="text/javascript" src="./assets/javascript/index.js"></script>
+      <script src="https://cdn.firebase.com/libs/firebaseui/2.4.1/firebaseui.js"></script>
+      <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.4.1/firebaseui.css">
+<!-- google font-->
+      <link href="https://fonts.googleapis.com/css?family=Spinnaker" rel="stylesheet">
+      <title>Pic A or B</title>
+      <style>p{margin: 1em;}</style>
+    </head>
+    <body class="body index">
+      <div class="container"><!--Begin container-->
+            <h1 class="text-center topbar">Pic A or B</h1>
+      	    <hr>
+            <div class="row content-center" id="description">
+              <p>Have you ever wanted to A/B Test two things to find out what people like best? Now there's an easy way to do it using Twitter and your smartphone. Simply text two pictures of the things that you want to compare to @picAorB, sit back and wait for the crowdsourced results.</p>
+              <p>While you wait for the results of your A/B test, you can help others by choosing your favorites below.</p>
+            </div>
+
+
+            <h3>Input your Tweet ID to track the status of your AB Test</h3>
+
+            <input type="text" id="trackStatus" placeholder="e.g. 932753619702702100">
+            <button onclick="trackStatus()">Track Status</button>
+
+      </div><!--End container-->
+    </body>
+  </html>
+
+<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBjKZrsmDN27Nyh9NyuXgZiyOduGO0Lo7k",
+    authDomain: "picaorb-73861.firebaseapp.com",
+    databaseURL: "https://picaorb-73861.firebaseio.com",
+    projectId: "picaorb-73861",
+    storageBucket: "picaorb-73861.appspot.com",
+    messagingSenderId: "149972153718"
+  };
+  firebase.initializeApp(config);
+
+  function trackStatus() {
+      var idToTrack = document.getElementById("trackStatus").value;
+      console.log(idToTrack);
+  }
+
+
+</script>
