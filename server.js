@@ -14,6 +14,23 @@ app.use(express.static('public/js'))
 
 // ___________________________________
 // initilaze twitter
+const startTwitterStream = () => {
+  // start twitter stream, recieve @picAorB mentions
+  let stream = client.stream('statuses/filter', {track: '@picaorb'});
+  stream.on('data', function(event) {
+
+    console.log(`received: ${event.text}\n`);
+
+    addPollToFirebase(event);
+
+    replyTweetWithLink(event);
+  });
+
+  stream.on('error', function(error) {
+    throw error;
+  });
+};
+
 let Twitter = require('twitter');
 let keys;
 let client;
@@ -76,22 +93,6 @@ const getPollFromFirebase = () => {
   });
 };
 
-const startTwitterStream = () => {
-  // start twitter stream, recieve @picAorB mentions
-  let stream = client.stream('statuses/filter', {track: '@picaorb'});
-  stream.on('data', function(event) {
-
-    console.log(`received: ${event.text}\n`);
-
-    addPollToFirebase(event);
-
-    replyTweetWithLink(event);
-  });
-
-  stream.on('error', function(error) {
-    throw error;
-  });
-};
 
 
 
