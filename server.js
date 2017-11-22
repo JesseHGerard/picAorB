@@ -1,8 +1,7 @@
 let express = require('express');
 let bodyParser = require('body-parser');
 let path = require('path');
-let Twitter = require('twitter');
-let keys = require('./keys.js');
+
 let firebase = require('firebase');
 
 let app = express();
@@ -10,7 +9,13 @@ let PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+app.use(express.static('public/js'))
+
 // ___________________________________
+// initilaze twitter
+let Twitter = require('twitter');
+let keys = require('./keys.js');
+let client = new Twitter(process.env.keys || keys);
 
 
 // Initialize Firebase
@@ -27,21 +32,11 @@ let database = firebase.database();
 
 
 
+const replyTweetWithLink = (event) => {
 
-
-// start twitter stream
-let client = new Twitter(process.env.keys || keys);
-let stream = client.stream('statuses/filter', {track: '@picaorb'});
-stream.on('data', function(event) {
-  // add tweet to firebase
-  firebase.database().ref('activePolls').child(event.id_str).set(event);
-
-  console.log(`received: ${event.text}\n`);
-
-  //reply to received tweet
   client.post('statuses/update', {
     //assemble reply message
-    status: `@${event.user.screen_name} http://tbd.com/${event.id_str}`,
+    status: `@${event.user.screen_name} http://localhost:3000/polls/${event.id_str}`,
 
     in_reply_to_status_id: event.id_str,
     in_reply_to_status_id_str: event.id_str,
@@ -49,33 +44,65 @@ stream.on('data', function(event) {
     in_reply_to_user_id_str: event.user.id_str,
     in_reply_to_screen_name: event.user.screen_name,
 
-
     },  function(error, tweet, response) {
     if(error) {console.log(error)};
 
     console.log(`reply: ${tweet.text}\n`);
 
   });
-});
+};
 
-stream.on('error', function(error) {
-  throw error;
-});
+const addPollToFirebase = (event) => {
+  firebase.database().ref('activePolls').child(event.id_str).set(event);
+};
+
+// this function is not currently used
+const getPollFromFirebase = () => {
+  // get tweet id from path, search firebase for id
+  firebase.database().ref(`activePolls/${req.url.slice(6)}`).once('value', function(data) {
+    // data.val() shows value of firebase entry, not just firebase object properties
+    console.log(data.val());
+  });
+};
+
 
 
 
 
 
 // root route
-// app.get('/', function(req, res) {
-//   res.sendFile(path.join(__dirname, '/index.html'));
-// });
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, '/public/index.html'));
+});
+
+// poll route, path will be to tweet id_str as stored in firebase
+app.get('/poll/*', function(req, res) {
+  res.sendFile(path.join(__dirname, '/public/polls.html'))
+});
 
 // api route
 // app.post('/api', function(req, res) {
 //   console.log(req.body);
 // });
 
+
+
+
+
+// start twitter stream, recieve @picAorB mentions
+let stream = client.stream('statuses/filter', {track: '@picaorb'});
+stream.on('data', function(event) {
+
+  console.log(`received: ${event.text}\n`);
+
+  addPollToFirebase(event);
+
+  replyTweetWithLink(event);
+});
+
+stream.on('error', function(error) {
+  throw error;
+});
 
 
 // ___________________________________
