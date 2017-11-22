@@ -1,3 +1,4 @@
+let fs = require('fs');
 let express = require('express');
 let bodyParser = require('body-parser');
 let path = require('path');
@@ -14,8 +15,16 @@ app.use(express.static('public/js'))
 // ___________________________________
 // initilaze twitter
 let Twitter = require('twitter');
-let keys = require('./keys.js');
-let client = new Twitter(process.env.keys || keys);
+let keys;
+let client;
+if(fs.existsSync('./keys.js')){
+  keys = require('./keys.js');
+  client= new Twitter(keys);
+} else {
+  client= new Twitter(process.env.keys);
+};
+
+
 
 
 // Initialize Firebase
