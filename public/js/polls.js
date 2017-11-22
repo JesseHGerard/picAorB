@@ -16,7 +16,16 @@ var config = {
 firebase.initializeApp(config);
 let database = firebase.database();
 
-
+// increments a or b vote, of currentPollData id, and voteTotal, takes argument 'A' or 'B' as a string
+const incrementFirebaseVote = (aOrB) => {
+  console.log(currentPollData);
+  firebase.database().ref(`activePolls/${currentPollData.id_str}/pic/vote${aOrB}`).transaction(function(propertyInt) {
+   return propertyInt + 1;
+  });
+  firebase.database().ref(`activePolls/${currentPollData.id_str}/pic/voteTotal`).transaction(function(propertyInt) {
+    return propertyInt + 1;
+  });
+};
 
 
 const getPollIdFromUrl = () => {
@@ -29,9 +38,15 @@ const getPollFromFirebase = (pollId) => {
     // data.val() shows value of firebase entry, not just firebase object properties
     currentPollData = data.val();
 
-    $('#a').attr('src', currentPollData.extended_entities.media[0].media_url_https)
+    $('#a').attr('src', currentPollData.extended_entities.media[0].media_url_https);
+    $('#b').attr('src', currentPollData.extended_entities.media[1].media_url_https);
 
-    $('#b').attr('src', currentPollData.extended_entities.media[1].media_url_https)
+    $('#a').on('click', function() {
+      incrementFirebaseVote('A');
+    });
+    $('#b').on('click', function(){
+      incrementFirebaseVote('B')
+    });
   });
 };
 
@@ -39,7 +54,6 @@ const getPollFromFirebase = (pollId) => {
 
 $(document).ready(function() {
   getPollFromFirebase(getPollIdFromUrl());
-
 
 
 });
