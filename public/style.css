@@ -1,0 +1,22 @@
+.tile.is-child.notification.is-warning {
+  background-color: #1da1f2;
+  color: white;
+}
+.tile.is-child.notification.is-success {
+  background-color: #1da1f2;
+  color: white;
+}
+
+.tile.is-child.notification.is-primary {
+background-color: #e8f5fd;
+color: black;
+}
+
+.tile.is-child.notification.is-danger {
+background-color: #e6ecf0;
+color: black;
+}
+.tile.is-child.notification.is-info {
+  background-color: white;
+  color: #209cee;
+}
