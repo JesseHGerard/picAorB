@@ -15,15 +15,20 @@
             <h1 class="text-center topbar">Pic A or B</h1>
       	    <hr>
             <div class="row content-center" id="description">
+              <div class="col-md-12">
               <p>Have you ever wanted to A/B Test two things to find out what people like best? Now there's an easy way to do it using Twitter and your smartphone. Simply text two pictures of the things that you want to compare to @picAorB, sit back and wait for the crowdsourced results.</p>
               <p>While you wait for the results of your A/B test, you can help others by choosing your favorites below.</p>
+              </div>
             </div>
+          <div class="row" id="description">
+            <div class="col-md-2">
+              <h3>Input your Tweet ID to track the status of your AB Test</h3>
+              <input type="text" id="trackStatus" placeholder="e.g. 932753619702702100">
+              <button onclick="trackStatus()">Track Status</button>
+            </div>
+            <div class="col-md-10" id="tweetStatus">
 
-
-            <h3>Input your Tweet ID to track the status of your AB Test</h3>
-
-            <input type="text" id="trackStatus" placeholder="e.g. 932753619702702100">
-            <button onclick="trackStatus()">Track Status</button>
+            </div>
 
       </div><!--End container-->
     </body>
@@ -42,15 +47,20 @@
     };
     firebase.initializeApp(config);
 
+
   function trackStatus() {
     var query = firebase.database().ref('activePolls').orderByKey();
     query.once('value')
     .then (function(snapshot){
       snapshot.forEach(function(childSnapshot) {
-        var key = childSnapshot.key;
-        var childData = childSnapshot.val();
-          console.log(key);
-          console.log(childData);
+        // var key = childSnapshot.key;
+        var tweetToTrack = childSnapshot.val();
+          // console.log(key);
+          console.log(tweetToTrack);
+        $("#tweetStatus").empty();
+        var tweetStatusDiv = $('<div>');
+        tweetStatusDiv.text("Welcome " + tweetToTrack.user.name + " here's the status of your A/B Test");
+        $("#tweetStatus").append(tweetStatusDiv);
       });
     });
   }
