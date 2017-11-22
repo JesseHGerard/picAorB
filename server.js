@@ -20,8 +20,10 @@ let client;
 if(fs.existsSync('./keys.js')){
   keys = require('./keys.js');
   client= new Twitter(keys);
+  startTwitterStream();
 } else {
   client= new Twitter(process.env.keys);
+  startTwitterStream();
 };
 
 
@@ -74,6 +76,23 @@ const getPollFromFirebase = () => {
   });
 };
 
+const startTwitterStream = () => {
+  // start twitter stream, recieve @picAorB mentions
+  let stream = client.stream('statuses/filter', {track: '@picaorb'});
+  stream.on('data', function(event) {
+
+    console.log(`received: ${event.text}\n`);
+
+    addPollToFirebase(event);
+
+    replyTweetWithLink(event);
+  });
+
+  stream.on('error', function(error) {
+    throw error;
+  });
+};
+
 
 
 
@@ -98,20 +117,7 @@ app.get('/poll/*', function(req, res) {
 
 
 
-// start twitter stream, recieve @picAorB mentions
-let stream = client.stream('statuses/filter', {track: '@picaorb'});
-stream.on('data', function(event) {
 
-  console.log(`received: ${event.text}\n`);
-
-  addPollToFirebase(event);
-
-  replyTweetWithLink(event);
-});
-
-stream.on('error', function(error) {
-  throw error;
-});
 
 
 // ___________________________________
