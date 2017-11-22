@@ -34,7 +34,7 @@ let client = new Twitter(process.env.keys || keys);
 let stream = client.stream('statuses/filter', {track: '@picaorb'});
 stream.on('data', function(event) {
   // add tweet to firebase
-  firebase.database().ref(event.id_str).set(event);
+  firebase.database().ref('activePolls').child(event.id_str).set(event);
 
   console.log(`received: ${event.text}\n`);
 
