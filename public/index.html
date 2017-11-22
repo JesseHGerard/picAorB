@@ -2,8 +2,8 @@
   <html>
     <head>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-      <script type="text/javascript" src="./assets/javascript/index.js"></script>
-      <script src="https://cdn.firebase.com/libs/firebaseui/2.4.1/firebaseui.js"></script>
+<!--       <script type="text/javascript" src="./assets/javascript/index.js"></script>
+ -->      <script src="https://cdn.firebase.com/libs/firebaseui/2.4.1/firebaseui.js"></script>
       <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.4.1/firebaseui.css">
 <!-- google font-->
       <link href="https://fonts.googleapis.com/css?family=Spinnaker" rel="stylesheet">
@@ -32,19 +32,27 @@
 <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
 <script>
   // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyBjKZrsmDN27Nyh9NyuXgZiyOduGO0Lo7k",
-    authDomain: "picaorb-73861.firebaseapp.com",
-    databaseURL: "https://picaorb-73861.firebaseio.com",
-    projectId: "picaorb-73861",
-    storageBucket: "picaorb-73861.appspot.com",
-    messagingSenderId: "149972153718"
-  };
-  firebase.initializeApp(config);
+    var config = {
+      apiKey: "AIzaSyAgyDSwIZzynPdq5OvN1pVTbg60D67U91g",
+      authDomain: "picaorb-project2.firebaseapp.com",
+      databaseURL: "https://picaorb-project2.firebaseio.com",
+      projectId: "picaorb-project2",
+      storageBucket: "picaorb-project2.appspot.com",
+      messagingSenderId: "1007298219380"
+    };
+    firebase.initializeApp(config);
 
   function trackStatus() {
-      var idToTrack = document.getElementById("trackStatus").value;
-      console.log(idToTrack);
+    var query = firebase.database().ref('activePolls').orderByKey();
+    query.once('value')
+    .then (function(snapshot){
+      snapshot.forEach(function(childSnapshot) {
+        var key = childSnapshot.key;
+        var childData = childSnapshot.val();
+          console.log(key);
+          console.log(childData);
+      });
+    });
   }
 
 
