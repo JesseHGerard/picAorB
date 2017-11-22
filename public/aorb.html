@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src="https://cdn.firebase.com/libs/firebaseui/2.4.1/firebaseui.js"></script>
+      <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.4.1/firebaseui.css">
+      <link rel="stylesheet" type="text/css" href="./style.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.css">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>A/B Testing</title>
+    </head>
+    <body class="body index">
+      <p class="title">Pic A or B</p>
+      <h1 style="text-align:center">Crowdsourced A/B Testing with style</h1>
+      <hr>
+
+      <div class="tile is-ancestor is-primary">
+        <div class="tile is-1"></div>
+        <div class="tile box" id="pic-A">
+          <p>Pic A</p>
+        </div>
+        <div class="tile is-1"></div>
+        <div class="tile box" id="pic-B">
+          <p>Pic B</p>
+        </div>
+        <div class="tile is-1"></div>
+      </div> <!-- end of ancestor tile -->
+    </body>
+  </html>
+
+  <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyAgyDSwIZzynPdq5OvN1pVTbg60D67U91g",
+        authDomain: "picaorb-project2.firebaseapp.com",
+        databaseURL: "https://picaorb-project2.firebaseio.com",
+        projectId: "picaorb-project2",
+        storageBucket: "picaorb-project2.appspot.com",
+        messagingSenderId: "1007298219380"
+      };
+      firebase.initializeApp(config);
+
+
+    function compareAB() {
+      var query = firebase.database().ref('activePolls').orderByKey();
+      query.once('value')
+      .then (function(snapshot){
+        snapshot.forEach(function(childSnapshot) {
+          var tweet = childSnapshot.val();
+          $("#pic-A").empty();
+          $("#pic-B").empty();
+          var picA = childSnapshot.child('extended_entities/media').child('0/media_url').val();
+          var picB = childSnapshot.child('extended_entities/media').child('1/media_url').val();
+
+          if (picA != null && picB != null){
+            console.log("Pic A: " + picA);
+            console.log("Pic B: " + picB);
+            var picADiv = $('<div>');
+            var picBDiv = $('<div>');
+            picADiv.html("<img src=" + picA +">");
+            picBDiv.html("<img src=" + picB +">");
+            $("#pic-A").append(picADiv);
+            $("#pic-B").append(picBDiv);
+          }
+        });
+      });
+    };
+
+    compareAB();
+
+  </script>

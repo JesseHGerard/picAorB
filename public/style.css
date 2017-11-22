@@ -1,3 +1,11 @@
+p.title{
+  font-size: 3rem;
+  text-align: center;
+}
+p.subtitle{
+  text-align: center;
+}
+
 .tile.is-child.notification.is-warning {
   background-color: #1da1f2;
   color: white;

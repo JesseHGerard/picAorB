@@ -17,11 +17,11 @@
             <div class="tile is-parent is-vertical">
               <article class="tile is-child notification is-primary">
                 <p class="title">What is Pic A or B?</p>
-                <p class="subtitle">Have you ever wanted to A/B Test two things to find out what people like best? Now there's an easy way to do it using Twitter and your smartphone. </p>
+                <p>Have you ever wanted to A/B Test two things to find out what people like best? Now there's an easy way to do it using Twitter and your smartphone. </p>
               </article>
               <article class="tile is-child notification is-warning">
                 <p class="title">How it works:</p>
-                <p class="subtitle">Simply tweet two pictures of the things that you want to compare to  <a href="https://twitter.com/picaorb">@picAorB</a> sit back and wait for the crowdsourced results.</p>
+                <p>Simply tweet two pictures of the things that you want to compare to  <a href="https://twitter.com/picaorb">@picAorB</a> sit back and wait for the crowdsourced results.</p>
               </article>
             </div>
             <div class="tile is-parent">
@@ -64,14 +64,6 @@
     </body>
   </html>
 
-
-
-
-
-
-
-
-
 <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
 <script>
   // Initialize Firebase
@@ -91,9 +83,7 @@
     query.once('value')
     .then (function(snapshot){
       snapshot.forEach(function(childSnapshot) {
-        // var key = childSnapshot.key;
         var tweetToTrack = childSnapshot.val();
-          // console.log(key);
           console.log(tweetToTrack);
         $("#tweetStatus").empty();
         var tweetStatusDiv = $('<div>');
