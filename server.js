@@ -36,7 +36,7 @@ const replyTweetWithLink = (event) => {
 
   client.post('statuses/update', {
     //assemble reply message
-    status: `@${event.user.screen_name} http://localhost:3000/polls/${event.id_str}`,
+    status: `@${event.user.screen_name} https://picaorb.herokuapp.com/polls/${event.id_str}`,
 
     in_reply_to_status_id: event.id_str,
     in_reply_to_status_id_str: event.id_str,
