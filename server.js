@@ -37,6 +37,7 @@ let client;
 if(fs.existsSync('./keys.js')){
   keys = require('./keys.js');
   client= new Twitter(keys);
+  console.log(keys);
   startTwitterStream();
 } else {
   client= new Twitter(process.env.keys);
@@ -124,4 +125,5 @@ app.get('/poll/*', function(req, res) {
 // ___________________________________
 app.listen(PORT, function() {
   console.log(`App is listening on port ${PORT}\n`);
+  console.log(process.env.keys);
 });
