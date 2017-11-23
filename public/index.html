@@ -56,7 +56,6 @@
           </div>
         </div>
       </div>
-
     </body>
   </html>
 
@@ -77,6 +76,9 @@
 var tweetToTrack;
 var tweetPic;
 
+//this function stores the ID entered on the form input and stores
+//it in the variable tweetToTrack
+//It then calls the trackStatus function
 $("#track-submit").on("click", function(event) {
   event.preventDefault();
   tweetToTrack = $("#track-status").val().trim();
@@ -87,7 +89,7 @@ $("#track-submit").on("click", function(event) {
 
 // this function gets called when a user submits a request via the input field
 // it takes a snapshot of the database, then searches for the ID submitted by the User
-
+// It displays the pictures of the A/B test and will need to eventually show the score of each pic
   function trackStatus() {
     var query = firebase.database().ref('activePolls');
     query.once('value')
@@ -97,8 +99,6 @@ $("#track-submit").on("click", function(event) {
         if (idString == tweetToTrack) {
           var picA = snap.child('extended_entities/media').child('0/media_url').val();
           var picB = snap.child('extended_entities/media').child('1/media_url').val();
-          console.log(picA);
-          console.log(picB);
           $("#display-tweet").empty();
           var displayTweetDiv = $('<div>');
           displayTweetDiv.html("<p>Pic A:</p><img src=" + picA +"><p>Pic B:</p><img src=" + picB +">");
@@ -107,7 +107,5 @@ $("#track-submit").on("click", function(event) {
       });
     });
   };
-
-
 
 </script>
