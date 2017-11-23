@@ -37,7 +37,6 @@ let client;
 if(fs.existsSync('./keys.js')){
   keys = require('./keys.js');
   client= new Twitter(keys);
-  console.log(keys);
   startTwitterStream();
 } else {
   client= new Twitter({
@@ -70,7 +69,7 @@ const replyTweetWithLink = (event) => {
 
   client.post('statuses/update', {
     //assemble reply message
-    status: `@${event.user.screen_name} https://picaorb.herokuapp.com/polls/${event.id_str}`,
+    status: `@${event.user.screen_name} https://picaorb.herokuapp.com/poll/${event.id_str}`,
 
     in_reply_to_status_id: event.id_str,
     in_reply_to_status_id_str: event.id_str,
@@ -87,7 +86,15 @@ const replyTweetWithLink = (event) => {
 };
 
 const addPollToFirebase = (event) => {
-  firebase.database().ref('activePolls').child(event.id_str).set(event);
+  let newPoll = event;
+  // add picAorB info to tweet object
+  newPoll.pic = {
+    voteTotal: 0,
+    voteA: 0,
+    voteB: 0
+  };
+
+  firebase.database().ref('activePolls').child(newPoll.id_str).set(newPoll);
 };
 
 // this function is not currently used
@@ -130,5 +137,4 @@ app.get('/poll/*', function(req, res) {
 // ___________________________________
 app.listen(PORT, function() {
   console.log(`App is listening on port ${PORT}\n`);
-  console.log(process.env.keys);
 });
