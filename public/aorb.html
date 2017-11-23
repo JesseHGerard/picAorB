@@ -67,6 +67,13 @@
       });
     };
 
+    $("#pic-A").click(vote);
+    $("#pic-B").click(vote);
+
+    function vote() {
+      console.log(this.id);
+    };
+
     compareAB();
 
   </script>
