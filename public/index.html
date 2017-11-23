@@ -75,9 +75,7 @@
 
 
 var tweetToTrack;
-var tweetStatusDiv = $('<div>');
 var tweetPic;
-
 
 $("#track-submit").on("click", function(event) {
   event.preventDefault();
@@ -97,11 +95,14 @@ $("#track-submit").on("click", function(event) {
       snapshot.forEach(function(snap) {
         var idString = (snap.child('id_str').val());
         if (idString == tweetToTrack) {
-          tweetPic = snap.child('entities/media').child('0/expanded_url').val();
-          console.log(tweetPic);
+          var picA = snap.child('extended_entities/media').child('0/media_url').val();
+          var picB = snap.child('extended_entities/media').child('1/media_url').val();
+          console.log(picA);
+          console.log(picB);
           $("#display-tweet").empty();
-          tweetStatusDiv.html('<img src=' + tweetPic + '>');
-          $("#display-tweet").append(tweetStatusDiv);
+          var displayTweetDiv = $('<div>');
+          displayTweetDiv.html("<p>Pic A:</p><img src=" + picA +"><p>Pic B:</p><img src=" + picB +">");
+          $("#display-tweet").append(displayTweetDiv);
         };
       });
     });
