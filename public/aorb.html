@@ -12,17 +12,15 @@
     </head>
     <body class="body index">
       <p class="title">Pic A or B</p>
-      <h1 style="text-align:center">Crowdsourced A/B Testing with style</h1>
+      <h1 style="text-align:center">Click on the image below that you like better:</h1>
       <hr>
 
       <div class="tile is-ancestor is-primary">
         <div class="tile is-1"></div>
         <div class="tile box" id="pic-A">
-          <p>Pic A</p>
         </div>
         <div class="tile is-1"></div>
         <div class="tile box" id="pic-B">
-          <p>Pic B</p>
         </div>
         <div class="tile is-1"></div>
       </div> <!-- end of ancestor tile -->
@@ -42,30 +40,48 @@
       };
       firebase.initializeApp(config);
 
+    //these arrays are used in the compareAB function to randomize which images appear in the div
+    var tweetArrA = [];
+    var tweetArrB = [];
+    var picADiv = $('<div>');
+    var picBDiv = $('<div>');
 
+    //this function takes a snapshot of the database, then looks for any tweets that have two images
+    //if a tweet has two pics, those pics are pushed to arrays, the randomizer selects a random pair of images
+    //from the arrays and displays them 
     function compareAB() {
-      var query = firebase.database().ref('activePolls').orderByKey();
+      var query = firebase.database().ref('activePolls');
       query.once('value')
       .then (function(snapshot){
-        snapshot.forEach(function(childSnapshot) {
-          var tweet = childSnapshot.val();
-          $("#pic-A").empty();
-          $("#pic-B").empty();
-          var picA = childSnapshot.child('extended_entities/media').child('0/media_url').val();
-          var picB = childSnapshot.child('extended_entities/media').child('1/media_url').val();
-
-          if (picA != null && picB != null){
-            console.log("Pic A: " + picA);
-            console.log("Pic B: " + picB);
-            var picADiv = $('<div>');
-            var picBDiv = $('<div>');
-            picADiv.html("<img src=" + picA +">");
-            picBDiv.html("<img src=" + picB +">");
-            $("#pic-A").append(picADiv);
-            $("#pic-B").append(picBDiv);
-          }
+        snapshot.forEach(function(snap) {
+          if (snap.hasChild("extended_entities")) {
+            var picA = snap.child('extended_entities/media').child('0/media_url').val();
+            var picB = snap.child('extended_entities/media').child('1/media_url').val();
+            if (picA != null && picB != null) {
+              tweetArrA.push(picA);
+              tweetArrB.push(picB);
+              var i = [Math.floor(Math.random()*tweetArrA.length)];
+              $("#pic-A").empty();
+              $("#pic-B").empty();
+              picADiv.html("<p>Pic A:</p><img src=" + tweetArrA[i] +">");
+              picBDiv.html("<p>Pic B:</p><img src=" + tweetArrB[i] +">");
+              $("#pic-A").append(picADiv);
+              $("#pic-B").append(picBDiv);
+            };
+          };
         });
       });
+    };
+
+    //listens for click on images
+    $("#pic-A").click(vote);
+    $("#pic-B").click(vote);
+
+    //This will log a vote for whatever pic is clicked on, it will then repopulate the divs with new pics
+    //Need to add the functionality to actually tally the votes for the winning pic to the database
+    function vote() {
+      console.log(this.id);
+      compareAB();
     };
 
     compareAB();
