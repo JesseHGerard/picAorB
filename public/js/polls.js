@@ -18,7 +18,6 @@ let database = firebase.database();
 
 // increments a or b vote, of currentPollData id, and voteTotal, takes argument 'A' or 'B' as a string
 const incrementFirebaseVote = (aOrB) => {
-  console.log(currentPollData);
   firebase.database().ref(`activePolls/${currentPollData.id_str}/pic/vote${aOrB}`).transaction(function(propertyInt) {
    return propertyInt + 1;
   });
