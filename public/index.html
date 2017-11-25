@@ -95,13 +95,17 @@ $("#track-submit").on("click", function(event) {
     query.once('value')
     .then (function(snapshot){
       snapshot.forEach(function(snap) {
+        console.log(snap.val());
         var idString = (snap.child('id_str').val());
         if (idString == tweetToTrack) {
           var picA = snap.child('extended_entities/media').child('0/media_url').val();
+          var votesForA = snap.child('pic/voteA').val();
+          console.log(votesForA);
           var picB = snap.child('extended_entities/media').child('1/media_url').val();
+          var votesForB = snap.child('pic/voteB').val();
           $("#display-tweet").empty();
           var displayTweetDiv = $('<div>');
-          displayTweetDiv.html("<p>Pic A:</p><img src=" + picA +"><p>Pic B:</p><img src=" + picB +">");
+          displayTweetDiv.html("<p>Pic A: " +votesForA+ " votes.</p><img src=" + picA +"><p>Pic B: " +votesForB+ " votes.</p><img src=" + picB +">");
           $("#display-tweet").append(displayTweetDiv);
         };
       });
