@@ -1,5 +1,5 @@
 p.title{
-  font-size: 3rem;
+  font-size: 2rem;
   text-align: center;
 }
 p.subtitle{
@@ -31,4 +31,11 @@ color: black;
 div.tile.is-1 {
   text-align: center;
   font-size: 30px;
+}
+.container.content.has-text-centered {
+  background-color: #e8f5fd;
+  color: black;
+}
+footer.footer{
+  background-color: #1da1f2;
 }
