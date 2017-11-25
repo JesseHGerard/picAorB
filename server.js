@@ -95,12 +95,14 @@ const addPollToFirebase = (event) => {
   };
 
   firebase.database().ref('activePolls').child(newPoll.id_str).set(newPoll);
+
+  //firebase.database().ref('activePolls').child(index).set(index.push(newPoll.id_str));
 };
 
 // this function is not currently used
 const getPollFromFirebase = () => {
   // get tweet id from path, search firebase for id
-  firebase.database().ref(`activePolls/${req.url.slice(6)}`).once('value', function(data) {
+  firebase.database().ref(`activePoll/${req.url.slice(6)}`).once('value', function(data) {
     // data.val() shows value of firebase entry, not just firebase object properties
     console.log(data.val());
   });
