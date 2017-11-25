@@ -8,6 +8,7 @@
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.css">
       <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
       <title>Pic A or B</title>
     </head>
     <body class="body index">
@@ -17,18 +18,19 @@
             <div class="tile is-parent is-vertical">
               <article class="tile is-child notification is-primary">
                 <p class="title">What is Pic A or B?</p>
-                <p>Have you ever wanted to A/B Test two things to find out what people like best? Now there's an easy way to do it using Twitter and your smartphone. </p>
+                <p>Have you ever wanted to A/B Test two things to find out what people like best? Now there's an easy way to do it using Twitter and your smartphone. Simply tweet two pictures of the things that you want to compare to  <a href="https://twitter.com/picaorb">@picAorB</a> sit back and wait for the crowdsourced results.</p>
               </article>
               <article class="tile is-child notification is-warning">
-                <p class="title">How it works:</p>
-                <p>Simply tweet two pictures of the things that you want to compare to  <a href="https://twitter.com/picaorb">@picAorB</a> sit back and wait for the crowdsourced results.</p>
+                <p class="title">Choose for Yourself:</p>
+                <a href="./aorb.html"><img src="https://media.giphy.com/media/l0Hlyj0fsHlNMxj8I/giphy.gif" id="you-choose"></a>
+
               </article>
             </div>
             <div class="tile is-parent">
               <article class="tile is-child notification is-info">
                 <p class="title">Pick A or B</p>
                 <p class="subtitle">With pic A or B</p>
-                <figure class="image is-4by3">
+                <figure class="image is-4by3 animated rubberBand">
                   <img src="logo.png">
                 </figure>
               </article>
@@ -111,5 +113,6 @@ $("#track-submit").on("click", function(event) {
       });
     });
   };
+
 
 </script>
