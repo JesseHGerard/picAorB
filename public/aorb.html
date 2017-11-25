@@ -12,23 +12,35 @@
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
       <title>A/B Testing</title>
     </head>
-    <body class="body index">
-      <p class="title">Pic A or B</p>
-      <h1 style="text-align:center">Click on the image below that you like better:</h1>
-      <hr>
 
-      <div class="tile is-ancestor is-primary">
-        <div class="tile is-1"></div>
-        <div class="tile box" id="pic-A">
-        </div>
-        <div class="tile is-1">
+    <div class="columns is-mobile">
+      <div class="column">
+        <p class="title">Pic A or B</p>
+        <h1 style="text-align:center">Click on the image below that you like better:</h1>
+        <hr>
+      </div>
+    </div>
 
-          <h1>Shuffle<img src="./shuffle.png" alt="shuffle icon" id="shuffle"></h1>
-        </div>
-        <div class="tile box" id="pic-B">
-        </div>
-        <div class="tile is-1"></div>
-      </div> <!-- end of ancestor tile -->
+    <div class="columns is-mobile">
+      <div class="column is-narrow"></div>
+      <div class="column tile box" id="pic-A"></div>
+      <div class="column is-narrow has-text-centered"><h1>Shuffle</h1><img src="./shuffle.png" alt="shuffle icon" id="shuffle"></div>
+      <div class="column tile box" id="pic-B"></div>
+      <div class="column is-narrow"></div>
+    </div>
+
+<!-- <body class="body index">
+
+  <div class="tile is-ancestor is-primary">
+    </div>
+    <div class="tile is-1">
+
+    </div>
+    </div>
+    <div class="tile is-1"></div>
+  </div> end of ancestor tile
+ -->
+
       <footer class="footer">
         <div class="container content has-text-centered">
           <a href="./index.html"><img src="./home.png" id="you-choose" width="125" height="125"></a>

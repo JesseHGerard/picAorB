@@ -42,3 +42,14 @@ footer.footer{
 #you-choose {
   margin: auto;
 }
+div.columns.is-mobile {
+  background-color: #e8f5fd;
+}
+div#pic-A.column.tile.box{
+  background-color: #209cee;
+  color: white;
+}
+div#pic-B.column.tile.box{
+  background-color: #209cee;
+  color: white;
+}
