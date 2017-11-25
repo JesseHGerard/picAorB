@@ -3,11 +3,13 @@
     <head>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
       <script src="https://cdn.firebase.com/libs/firebaseui/2.4.1/firebaseui.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
       <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.4.1/firebaseui.css">
       <link rel="stylesheet" type="text/css" href="./style.css">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.css">
       <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
       <title>A/B Testing</title>
     </head>
     <body class="body index">
@@ -19,7 +21,10 @@
         <div class="tile is-1"></div>
         <div class="tile box" id="pic-A">
         </div>
-        <div class="tile is-1"></div>
+        <div class="tile is-1">
+
+          <h1>Shuffle<img src="./shuffle.png" alt="shuffle icon" id="shuffle"></h1>
+        </div>
         <div class="tile box" id="pic-B">
         </div>
         <div class="tile is-1"></div>
@@ -27,30 +32,38 @@
     </body>
   </html>
 
-  <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
   <script>
-    // Initialize Firebase
-      var config = {
-        apiKey: "AIzaSyAgyDSwIZzynPdq5OvN1pVTbg60D67U91g",
-        authDomain: "picaorb-project2.firebaseapp.com",
-        databaseURL: "https://picaorb-project2.firebaseio.com",
-        projectId: "picaorb-project2",
-        storageBucket: "picaorb-project2.appspot.com",
-        messagingSenderId: "1007298219380"
-      };
-      firebase.initializeApp(config);
+// Initialize Firebase
+var config = {
+  apiKey: "AIzaSyAgyDSwIZzynPdq5OvN1pVTbg60D67U91g",
+  authDomain: "picaorb-project2.firebaseapp.com",
+  databaseURL: "https://picaorb-project2.firebaseio.com",
+  projectId: "picaorb-project2",
+  storageBucket: "picaorb-project2.appspot.com",
+  messagingSenderId: "1007298219380"
+};
 
-    //these arrays are used in the compareAB function to randomize which images appear in the div
-    var tweetArrA = [];
-    var tweetArrB = [];
-    var picADiv = $('<div>');
-    var picBDiv = $('<div>');
+firebase.initializeApp(config);
+const db = firebase.database();
+const rootRef = db.ref();
+
+//these arrays are used in the shuffle function to randomize which images appear in the div
+var tweetArrA = [];
+var tweetArrB = [];
+var picADiv = $('<div>').addClass('animated slideInRight');
+var picBDiv = $('<div>').addClass('animated slideInLeft');
+var tweetID;
+
+//listens for click on images and calls the vote () function
+$("#pic-A").click(vote);
+$("#pic-B").click(vote);
+$("#shuffle").click(shuffle)
 
     //this function takes a snapshot of the database, then looks for any tweets that have two images
     //if a tweet has two pics, those pics are pushed to arrays, the randomizer selects a random pair of images
-    //from the arrays and displays them 
-    function compareAB() {
-      var query = firebase.database().ref('activePolls');
+    //from the arrays and displays them
+    function shuffle() {
+      var query = db.ref('activePolls');
       query.once('value')
       .then (function(snapshot){
         snapshot.forEach(function(snap) {
@@ -58,6 +71,8 @@
             var picA = snap.child('extended_entities/media').child('0/media_url').val();
             var picB = snap.child('extended_entities/media').child('1/media_url').val();
             if (picA != null && picB != null) {
+              tweetID = snap.child('id_str').val();
+              console.log(tweetID);
               tweetArrA.push(picA);
               tweetArrB.push(picB);
               var i = [Math.floor(Math.random()*tweetArrA.length)];
@@ -73,17 +88,30 @@
       });
     };
 
-    //listens for click on images
-    $("#pic-A").click(vote);
-    $("#pic-B").click(vote);
-
     //This will log a vote for whatever pic is clicked on, it will then repopulate the divs with new pics
     //Need to add the functionality to actually tally the votes for the winning pic to the database
     function vote() {
-      console.log(this.id);
-      compareAB();
+      var chosen = this.id;
+      firebase.database().ref(`activePolls/${tweetID}`).child('pic').once('value', function(data) {
+        console.log(chosen);
+        console.log(chosen=='pic-A');
+        console.log(chosen=='pic-B');
+        if (chosen == 'pic-A'){
+            firebase.database().ref(`activePolls/${tweetID}`).child('pic').child('voteA').transaction(function(propertyInt){
+              return propertyInt +1;
+            });
+          }
+        else if (chosen == 'pic-B') {
+            firebase.database().ref(`activePolls/${tweetID}`).child('pic').child('voteB').transaction(function(propertyInt){
+              return propertyInt +1;
+            });
+          };
+        firebase.database().ref(`activePolls/${tweetID}`).child('pic').child('voteTotal').transaction(function(propertyInt){
+        return propertyInt +1;
+        });
+      });
+      shuffle();
     };
-
-    compareAB();
+    shuffle();
 
   </script>
