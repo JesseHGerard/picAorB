@@ -87,22 +87,26 @@ $("#shuffle").click(shuffle)
         var idArr = [];
         var textArr = [];
           snapshot.forEach(function(snap){
-          console.log(snap.val());
-          console.log(snap.key);
+          // console.log(snap.val());
+          // console.log(snap.key);
             if (snap.hasChild("extended_entities")) {
-            var picA = snap.child('extended_entities/media').child('0/media_url').val();
-            var picB = snap.child('extended_entities/media').child('1/media_url').val();
-            var picID = snap.child('id_str').val();
-            var tweetText = snap.child('text').val();
-            var editedText = tweetText.replace("@picaorb", "Tweet text: ");
-              if (picA != null && picB != null) {
-                tweetArrA.push(picA);
-                tweetArrB.push(picB);
-                idArr.push(picID);
-                textArr.push(editedText);
-                // console.log(tweetArrA);
-                // console.log(tweetArrB);
-              };
+              var picA = snap.child('extended_entities/media').child('0/media_url_https').val();
+              var picB = snap.child('extended_entities/media').child('1/media_url_https').val();
+              console.log(picA);
+              console.log(picB);
+              var picID = snap.key;
+              // console.log("picID is " + picID);
+              // console.log("snap.key is " + snap.key);
+              var tweetText = snap.child('text').val();
+              var editedText = tweetText.replace("@picaorb", "Tweet text: ");
+                if (picA != null && picB != null) {
+                  tweetArrA.push(picA);
+                  tweetArrB.push(picB);
+                  idArr.push(picID);
+                  textArr.push(editedText);
+                  // console.log(tweetArrA);
+                  // console.log(tweetArrB);
+                };
             };
           });
             if (iterator >= tweetArrA.length){
