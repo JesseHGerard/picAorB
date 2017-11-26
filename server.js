@@ -10,7 +10,7 @@ let PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public/images'));
 // app.use(express.static('public/js'));
 // app.use(express.static('public/images'));
 // app.use(express.static('public/css'));
