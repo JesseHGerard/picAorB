@@ -10,7 +10,8 @@ let PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.use(express.static('public/js'))
+app.use(express.static('public/js'));
+app.use(express.static('public/images'));
 
 // ___________________________________
 // initilaze twitter
@@ -132,7 +133,17 @@ const getActivePollsFromFirebase = () => {
 
 // root route
 app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, '/public/index.html'));
+});
+
+// aorb route
+app.get('/aorb', function(req, res) {
   res.sendFile(path.join(__dirname, '/public/aorb.html'));
+});
+
+// submit route
+app.get('/aorb', function(req, res) {
+  res.sendFile(path.join(__dirname, '/public/submit.html'));
 });
 
 
