@@ -1,5 +1,5 @@
 p.title{
-  font-size: 3rem;
+  font-size: 2rem;
   text-align: center;
 }
 p.subtitle{
@@ -27,4 +27,29 @@ color: black;
 .tile.is-child.notification.is-info {
   background-color: white;
   color: #209cee;
+}
+div.tile.is-1 {
+  text-align: center;
+  font-size: 30px;
+}
+.container.content.has-text-centered {
+  background-color: #e8f5fd;
+  color: black;
+}
+footer.footer{
+  background-color: #1da1f2;
+}
+#you-choose {
+  margin: auto;
+}
+div.columns.is-mobile {
+  background-color: #e8f5fd;
+}
+div#pic-A.column.tile.box{
+  background-color: #209cee;
+  color: white;
+}
+div#pic-B.column.tile.box{
+  background-color: #209cee;
+  color: white;
 }
