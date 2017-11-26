@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src="https://cdn.firebase.com/libs/firebaseui/2.4.1/firebaseui.js"></script>
+      <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.4.1/firebaseui.css">
+      <link rel="stylesheet" type="text/css" href="./style.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.css">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
+      <title>No Twitter? No Problem!</title>
+    </head>
+
+    <body>
+
+      <div class="columns is-mobile">
+        <div class="column">
+          <p class="title">No Twitter? No Problem!</p>
+          <h1 style="text-align:center">Fill out the fields below to submit an A/B Test.</h1>
+          <hr>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label is-large">Enter a message here:</label>
+        <div class="control has-icons-left has-icons-right">
+          <input class="input is-large" type="text" placeholder="Which one do you like best?" id="text" class="form-control" required>
+          <span class="icon is-small is-left">
+          </span>
+          <span class="icon is-small is-right">
+          </span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label is-large">Enter the full url for the first image here:</label>
+        <div class="control has-icons-left has-icons-right">
+          <input class="input is-large" type="text" placeholder="http://www.pictures.com/PicA.jpg" id="picAURL" class="form-control" required>
+          <span class="icon is-left">
+          </span>
+          <span class="icon is-right">
+          </span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label is-large">Enter the full url for the second image here:</label>
+        <div class="control has-icons-left has-icons-right">
+          <input class="input is-large" type="text" placeholder="http://www.pictures.com/PicB.jpg" id="picBURL" class="form-control" required>
+          <span class="icon is-medium is-left">
+          </span>
+          <span class="icon is-medium is-right">
+          </span>
+        </div>
+      </div>
+      <div class="field is-grouped">
+        <p class="control">
+          <a class="button is-info" id="submit">
+            Submit
+          </a>
+        </p>
+        <p class="control">
+          <a class="button is-light" id="cancel">
+            Cancel
+          </a>
+        </p>
+      </div>
+
+
+    <footer class="footer">
+      <div class="container content has-text-centered">
+        <a href="./aorb.html"><img src="./logo.png" id="you-choose" width="200" height="200" class="animated infinite wobble"></a>
+        <a href="https://twitter.com/picaorb"><img src="./twitter.ico" id="you-choose" width="125" height="125" class="animated infinite jello"></a>
+        <p><strong>Pic A or B</strong> by Haley, Jesse, and DJ.</p>
+      </div>
+    </footer>
+    </body>
+  </html>
+
+<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+<script type="text/javascript">
+  // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyAgyDSwIZzynPdq5OvN1pVTbg60D67U91g",
+      authDomain: "picaorb-project2.firebaseapp.com",
+      databaseURL: "https://picaorb-project2.firebaseio.com",
+      projectId: "picaorb-project2",
+      storageBucket: "picaorb-project2.appspot.com",
+      messagingSenderId: "1007298219380"
+    };
+    firebase.initializeApp(config);
+
+    $("#cancel").on("click", function(event){
+  		event.preventDefault();
+      $("#text").val("");
+      $("#picAURL").val("");
+      $("#picBURL").val("");
+    });
+
+
+    // Capture the form inputs
+  	$("#submit").on("click", function(event){
+  		event.preventDefault();
+
+  		// Form validation
+  		function validateForm() {
+  		var isValid = true;
+  		$('.form-control').each(function() {
+  			if ( $(this).val() === '' )
+  					isValid = false;
+  		});
+      return isValid;
+  	}
+  	// If all required fields are filled
+  	if (validateForm() == true) {
+  		// Create an object for the user's data
+  		var userData = {
+        extended_entities: {
+          media: [{media_url:$("#picAURL").val().trim()}, {media_url:$("#picBURL").val().trim()}],
+        },
+        text: $("#text").val().trim()
+
+  		};
+  		console.log(userData);
+      firebase.database().ref('activePolls').push(userData);
+
+  	}
+  	else
+  	{
+  		alert("Please fill out all fields before submitting!");
+  	}
+  		return false;
+  	});
+
+  </script>
+
+</script>
