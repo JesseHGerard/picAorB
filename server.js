@@ -95,17 +95,23 @@ const addPollToFirebase = (event) => {
   };
 
   firebase.database().ref('activePolls').child(newPoll.id_str).set(newPoll);
-
-  //firebase.database().ref('activePolls').child(index).set(index.push(newPoll.id_str));
 };
 
-// this function is not currently used
-const getPollFromFirebase = () => {
-  // get tweet id from path, search firebase for id
-  firebase.database().ref(`activePoll/${req.url.slice(6)}`).once('value', function(data) {
-    // data.val() shows value of firebase entry, not just firebase object properties
-    console.log(data.val());
+
+
+let currentPollsLocal = [];
+
+const getCurrentPollsFromFirebase = () => {
+  firebase.database().ref(`activePolls`).once('value', function(data) {
+    let pollData = data.val();
+    console.log(`pollData: ${pollData}`);
+    // make polls into an array
+    for (index of pollData) {
+      currentPollsLocal.push(pollData[index]);
+      console.log(`pollData[index]: ${pollData[index]}`);
+    };
   });
+  console.log(`currentPollsLocal: ${currentPollsLocal}`);
 };
 
 
@@ -140,3 +146,5 @@ app.get('/poll/*', function(req, res) {
 app.listen(PORT, function() {
   console.log(`App is listening on port ${PORT}\n`);
 });
+
+getCurrentPollsFromFirebase();
