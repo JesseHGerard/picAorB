@@ -13,7 +13,6 @@ app.use(bodyParser.json());
 app.use(express.static('public/js'));
 app.use(express.static('public/images'));
 app.use(express.static('public/css'));
-app.use(express.static(__dirname + '/public'));
 
 // ___________________________________
 // initilaze twitter
