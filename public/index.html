@@ -107,10 +107,9 @@ $("#track-submit").on("click", function(event) {
         console.log(snap.key);
         // var idString = (snap.child('id_str').val());
         if (snap.key == tweetToTrack) {
-          var picA = snap.child('extended_entities/media').child('0/media_url').val();
+          var picA = snap.child('extended_entities/media').child('0/media_url_https').val();
           var votesForA = snap.child('pic/voteA').val();
-          console.log(votesForA);
-          var picB = snap.child('extended_entities/media').child('1/media_url').val();
+          var picB = snap.child('extended_entities/media').child('1/media_url_https').val();
           var votesForB = snap.child('pic/voteB').val();
           $("#display-tweet").empty();
           var displayTweetDiv = $('<div>');

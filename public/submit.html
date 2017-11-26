@@ -70,8 +70,8 @@
 
     <footer class="footer">
       <div class="container content has-text-centered">
-        <a href="/aorb"><img src="/logo.png" id="you-choose" width="200" height="200" class="animated infinite wobble"></a>
-        <a href="https://twitter.com/picaorb"><img src="/twitter.ico" id="you-choose" width="125" height="125" class="animated infinite jello"></a>
+        <a href="/aorb"><img src="/images/logo.png" id="you-choose" width="200" height="200" class="animated infinite wobble"></a>
+        <a href="https://twitter.com/picaorb"><img src="/images/twitter.ico" id="you-choose" width="125" height="125" class="animated infinite jello"></a>
         <p><strong>Pic A or B</strong> by Haley, Jesse, and DJ.</p>
       </div>
     </footer>
@@ -122,8 +122,15 @@
         text: $("#text").val().trim()
 
   		};
-  		console.log(userData);
+  		// console.log(userData);
       firebase.database().ref('activePolls').push(userData);
+
+      var rootRef = firebase.database().ref('activePolls');
+      rootRef.once("child_added")
+        .then(function(snapshot) {
+          var childKey = snapshot.key;
+          alert("Please save this unique ID: " +childKey+  "  You will need it to track your results later.");
+        });
 
   	}
   	else
