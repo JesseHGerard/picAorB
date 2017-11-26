@@ -29,7 +29,7 @@
       <div class="column is-narrow has-text-centered">
         <br>
         <hr>
-          <h1>Shuffle</h1><img src="./shuffle.png" alt="shuffle icon" id="shuffle">
+          <h1>Shuffle</h1><img src="./images/shuffle.png" alt="shuffle icon" id="shuffle">
         <hr>
       </div>
       <div class="column tile box" id="pic-B"></div>
@@ -38,8 +38,8 @@
 
       <footer class="footer">
         <div class="container content has-text-centered">
-          <a href="./index.html"><img src="./home.png" id="you-choose" width="125" height="125"></a>
-          <a href="https://twitter.com/picaorb"><img src="./twitter.ico" id="you-choose" width="125" height="125"></a>
+          <a href="./index.html"><img src="./images/home.png" id="you-choose" width="125" height="125"></a>
+          <a href="https://twitter.com/picaorb"><img src="./images/twitter.ico" id="you-choose" width="125" height="125"></a>
           <p><strong>Pic A or B</strong> by Haley, Jesse, and DJ.</p>
         </div>
       </footer>
@@ -86,9 +86,10 @@ $("#shuffle").click(shuffle)
         var tweetArrB = [];
         var idArr = [];
         var textArr = [];
-        console.log(snapshot.val());
+        console.log(snapshot.child.val());
           snapshot.forEach(function(snap){
-          // console.log(snap.val());
+          console.log(snap.val());
+          console.log(snap.key);
             if (snap.hasChild("extended_entities")) {
             var picA = snap.child('extended_entities/media').child('0/media_url').val();
             var picB = snap.child('extended_entities/media').child('1/media_url').val();
