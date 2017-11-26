@@ -142,7 +142,7 @@ app.get('/aorb', function(req, res) {
 });
 
 // submit route
-app.get('/aorb', function(req, res) {
+app.get('/submit', function(req, res) {
   res.sendFile(path.join(__dirname, '/public/submit.html'));
 });
 

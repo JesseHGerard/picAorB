@@ -61,12 +61,12 @@ const getActivePollsIdsArray = () => {
 };
 
 const getRandomActivePollsId = () => {
-  let randoId activePollsIdsArray[Math.floor(Math.random() * activePollsIdsArray.length)];
-  if (viewedPolls.length)
+  let randoId = activePollsIdsArray[Math.floor(Math.random() * activePollsIdsArray.length)];
+
   if (!viewedPolls.includes(randoId)) {
-    return randoId
+    return randoId;
   } else {
-    getRandomActivePollsId
+    getRandomActivePollsId();
   };
 };
 
