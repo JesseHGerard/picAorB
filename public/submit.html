@@ -70,8 +70,8 @@
 
     <footer class="footer">
       <div class="container content has-text-centered">
-        <a href="./aorb.html"><img src="./logo.png" id="you-choose" width="200" height="200" class="animated infinite wobble"></a>
-        <a href="https://twitter.com/picaorb"><img src="./twitter.ico" id="you-choose" width="125" height="125" class="animated infinite jello"></a>
+        <a href="./aorb.html"><img src="./images/logo.png" id="you-choose" width="200" height="200" class="animated infinite wobble"></a>
+        <a href="https://twitter.com/picaorb"><img src="./images/twitter.ico" id="you-choose" width="125" height="125" class="animated infinite jello"></a>
         <p><strong>Pic A or B</strong> by Haley, Jesse, and DJ.</p>
       </div>
     </footer>
@@ -117,7 +117,7 @@
   		// Create an object for the user's data
   		var userData = {
         extended_entities: {
-          media: [{media_url:$("#picAURL").val().trim()}, {media_url:$("#picBURL").val().trim()}],
+          media: [{media_url_https:$("#picAURL").val().trim()}, {media_url_https:$("#picBURL").val().trim()}],
         },
         text: $("#text").val().trim()
 
