@@ -56,6 +56,7 @@
           </div>
         </div>
       </div>
+
     <footer class="footer">
       <div class="container content has-text-centered">
         <a href="./aorb.html"><img src="./logo.png" id="you-choose" width="200" height="200" class="animated infinite wobble"></a>
@@ -89,7 +90,7 @@ var tweetPic;
 $("#track-submit").on("click", function(event) {
   event.preventDefault();
   tweetToTrack = $("#track-status").val().trim();
-  // console.log(tweetToTrack);
+  console.log(tweetToTrack);
   $('#track-status').val('');
   trackStatus();
 });
@@ -103,8 +104,9 @@ $("#track-submit").on("click", function(event) {
     .then (function(snapshot){
       snapshot.forEach(function(snap) {
         console.log(snap.val());
-        var idString = (snap.child('id_str').val());
-        if (idString == tweetToTrack) {
+        console.log(snap.key);
+        // var idString = (snap.child('id_str').val());
+        if (snap.key == tweetToTrack) {
           var picA = snap.child('extended_entities/media').child('0/media_url').val();
           var votesForA = snap.child('pic/voteA').val();
           console.log(votesForA);
