@@ -27,7 +27,12 @@ const startTwitterStream = () => {
   });
 
   stream.on('error', function(error) {
-    throw error;
+    if (error) {
+      console.log(`${error.status}\ntrying again in 3 seconds`);
+      setTimeout(function(){
+        startTwitterStream();
+      }, 3000);
+    };
   });
 };
 
@@ -98,20 +103,25 @@ const addPollToFirebase = (event) => {
 };
 
 
+// stores active poll data
+let activePollsDataLocal = [];
+// stores active poll id
+let activePollsPropsLocal = [];
 
-let currentPollsLocal = [];
-
-const getCurrentPollsFromFirebase = () => {
+const getActivePollsFromFirebase = () => {
   firebase.database().ref(`activePolls`).once('value', function(data) {
     let pollData = data.val();
-    console.log(`pollData: ${pollData}`);
+    let tempData = [];
+    let tempProps = [];
     // make polls into an array
-    for (index of pollData) {
-      currentPollsLocal.push(pollData[index]);
-      console.log(`pollData[index]: ${pollData[index]}`);
+    for (index in pollData){
+      tempData.push(pollData[index]);
+      tempProps.push(index);
     };
+    activePollsDataLocal = tempData;
+    activePollsPropsLocal = tempProps;
   });
-  console.log(`currentPollsLocal: ${currentPollsLocal}`);
+
 };
 
 
@@ -122,18 +132,20 @@ const getCurrentPollsFromFirebase = () => {
 
 // root route
 app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, '/public/index.html'));
+  res.sendFile(path.join(__dirname, '/public/aorb.html'));
 });
+
 
 // poll route, path will be to tweet id_str as stored in firebase
 app.get('/poll/*', function(req, res) {
-  res.sendFile(path.join(__dirname, '/public/polls.html'))
+  res.sendFile(path.join(__dirname, '/public/polls.html'));
+  getActivePollsFromFirebase();
 });
 
-// api route
-// app.post('/api', function(req, res) {
-//   console.log(req.body);
-// });
+// get active poll ids
+app.get('/get-active-polls-array', function(req, res) {
+  res.send(activePollsPropsLocal);
+});
 
 
 
@@ -146,5 +158,3 @@ app.get('/poll/*', function(req, res) {
 app.listen(PORT, function() {
   console.log(`App is listening on port ${PORT}\n`);
 });
-
-getCurrentPollsFromFirebase();

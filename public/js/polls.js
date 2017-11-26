@@ -1,7 +1,9 @@
 // "ID" wiLL always refer to the poll or twitter "ID" in the form of a string, not an integer. Using integers will cause munging errors due to length. property 'id_str' is used, not 'id'
 
-
+// stores data
 let currentPollData;
+let activePollsIdsArray;
+let viewedPolls = [];
 
 
 // configure firebase
@@ -36,23 +38,44 @@ const getPollFromFirebase = (pollId) => {
   firebase.database().ref(`activePolls/${pollId}`).once('value', function(data) {
     // data.val() shows value of firebase entry, not just firebase object properties
     currentPollData = data.val();
+    viewedPolls.push(pollId);
 
     $('#a').attr('src', currentPollData.extended_entities.media[0].media_url_https);
     $('#b').attr('src', currentPollData.extended_entities.media[1].media_url_https);
 
     $('#a').on('click', function() {
       incrementFirebaseVote('A');
+      getPollFromFirebase(getRandomActivePollsId());
     });
     $('#b').on('click', function(){
-      incrementFirebaseVote('B')
+      incrementFirebaseVote('B');
+      getPollFromFirebase(getRandomActivePollsId());
     });
   });
 };
 
+const getActivePollsIdsArray = () => {
+  $.get(`${window.location.origin}/get-active-polls-array`, function(data, status) {
+    activePollsIdsArray = data;
+  });
+};
+
+const getRandomActivePollsId = () => {
+  let randoId activePollsIdsArray[Math.floor(Math.random() * activePollsIdsArray.length)];
+  if (viewedPolls.length)
+  if (!viewedPolls.includes(randoId)) {
+    return randoId
+  } else {
+    getRandomActivePollsId
+  };
+};
 
 
 $(document).ready(function() {
   getPollFromFirebase(getPollIdFromUrl());
 
+
+
+  getActivePollsIdsArray();
 
 });
