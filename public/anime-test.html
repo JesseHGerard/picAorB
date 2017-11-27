@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="/css/reset.css">
+  <style>
+
+  #img-a {
+    position: fixed;
+    left: calc(50% - 50vmin);
+    width: 47vmin;
+    height: 47vmin;
+    background-color: blue;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border: none;
+    top: 50%;
+    border-radius: 3vmin;
+    padding-left: 3vmin;
+    box-shadow: 10px 10px 10px #e8e8e8;
+  }
+  #img-b {
+    position: fixed;
+    left: calc(50% + 3vmin);
+    width: 47vmin;
+    height: 47vmin;
+    background-color: red;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border: none;
+    top: 50%;
+    border-radius: 3vmin;
+    padding-left: 3vmin;
+    box-shadow: 10px 10px 10px #e8e8e8;
+  }
+
+  </style>
+  <script src="./js/anime.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+  <div id="img-a" class="pic-image"></div>
+  <div id="img-b" class="pic-image"></div>
+
+</body>
+
+<script>
+
+const voteAnimation = (aorb) => {
+  let voteImage;
+  let rejectImage;
+  const animate = () => {
+    anime({
+      targets: `#img-${voteImage}`,
+      translateY: [
+        { value: '-=10vmin', duration: 200, easing: [.3,0,.09,1], elasticity: 1000},
+        { value: '+=100vmin', duration: 300, easing: [.22,.01,1,.19], elasticity: 1000} ],
+      scale: [
+        { value: 1.25, duration: 200, easing: [.3,0,.09,1], elasticity: 1000} ],
+    });
+    anime({
+      targets: `#img-${rejectImage}`,
+      translateY: [
+        { value: '-=10vmin', duration: 200, delay: 200, easing: [.3,0,.09,1], elasticity: 1000},
+        { value: '+=100vmin', duration: 300, easing: [.22,.01,1,.19], elasticity: 1000} ],
+      scale: [
+        { value: .75, duration: 200, delay: 200, easing: [.3,0,.09,1], elasticity: 1000} ],
+    });
+  };
+
+  if (aorb == 'a' || aorb == 'A') {
+    voteImage = 'a';
+    rejectImage = 'b';
+    animate();
+  } else {
+    voteImage = 'b';
+    rejectImage = 'a';
+    animate();
+  };
+};
+
+$('#img-b').on('click', ()=>voteAnimation('b'));
+$('#img-a').on('click', ()=>voteAnimation('a'));
+
+
+</script>
+
+</html>

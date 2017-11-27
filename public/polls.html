@@ -1,16 +1,79 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:300" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/reset.css">
+  <style>
+    html{
+      font-family: 'Nunito', sans-serif;
+      font-size: 10px;
+    }
+    body {
+      background-color: #f7f7f7;
+    }
+    .pic-image {
+      width: 47vmin;
+      height: 47vmin;
+      background-color: white;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      border: none;
+      position: fixed;
+      top: 50%;
+      border-radius: 3vmin;
+      padding-left: 3vmin;
+      box-shadow: 10px 10px 10px #e8e8e8;
+    }
+    #img-a {
+      position: fixed;
+      left: calc(50% - 50vmin);
+    }
+    #img-b {
+      position: fixed;
+      right: calc(50% - 3vmin);
+    }
+    #cap-box {
+      position: fixed;
+      width: 100vmin;
+      min-height: 20vmin;
+      bottom: calc(50% + 6vmin);
+      left: calc(50% - 50vmin);
+      border-radius: 3vmin;
+      border: .3rem solid #1c81bc;
+      /* offset-x | offset-y | blur-radius | color */
+      box-shadow: 10px 10px 10px #e8e8e8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: white;
+    }
+    #cap-text{
+      margin: 3vmin;
+      font-size: 4rem;
+      color: #1c81bc;
+    }
+
+  </style>
   <!-- JQUERY CDN -->
   <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="/polls.js"></script>
+  <script src="/anime.js"></script>
 </head>
 <body>
   <div id="main">
-    <img id="a"><img id="b">
+    <div id="cap-box">
+      <p id="cap-text"></p>
+    </div>
+    <div id="img-a">
+      <div id="a" class="pic-image"></div>
+    </div>
+    <div id="img-b">
+      <div id="b" class="pic-image"></div>
+    </div>
   </div>
-
 </body>
 
 </html>
