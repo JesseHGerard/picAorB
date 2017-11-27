@@ -26,6 +26,8 @@ const incrementFirebaseVote = (aOrB) => {
   firebase.database().ref(`activePolls/${currentPollData.id_str}/pic/voteTotal`).transaction(function(propertyInt) {
     return propertyInt + 1;
   });
+  // increment local variable for display
+  currentPollData.pic[`vote${aOrB}`]++;
 };
 
 
@@ -48,22 +50,20 @@ const voteAnimation = (aorb, callback) => {
       targets: `#img-${voteImage}`,
       translateY: [
         { value: '-=10vmin', duration: 200, easing: [.3,0,.09,1], elasticity: 1000},
-        { value: '+=100vmin', duration: 300, easing: [.22,.01,1,.19], elasticity: 1000} ],
+        { value: '+=110vmin', duration: 300, easing: [.22,.01,1,.19], elasticity: 1000} ],
       scale: [
-        { value: 1.5, duration: 200, easing: [.3,0,.09,1], elasticity: 1000} ],
-      zIndex: [
-        { value: 10 } ],
+        { value: 1.5, duration: 200, easing: [.3,0,.09,1], elasticity: 1000},
+        { value: 1, duration: 300, delay: 200}],
     });
     // not clicked / recjected image animation
     anime({
       targets: `#img-${rejectImage}`,
       translateY: [
         { value: '-=10vmin', duration: 200, delay: 200, easing: [.3,0,.09,1], elasticity: 1000},
-        { value: '+=100vmin', duration: 300, easing: [.22,.01,1,.19], elasticity: 1000} ],
+        { value: '+=110vmin', duration: 300, easing: [.22,.01,1,.19], elasticity: 1000} ],
       scale: [
-        { value: .75, duration: 200, delay: 200, easing: [.3,0,.09,1], elasticity: 1000} ],
-      zIndex: [
-        { value: 9 } ],
+        { value: .75, duration: 200, delay: 200, easing: [.3,0,.09,1], elasticity: 1000},
+        { value: 1, duration: 200, delay: 300}],
     }).finished.then(callback);
   };
 
@@ -78,6 +78,26 @@ const voteAnimation = (aorb, callback) => {
   };
 };
 
+const newImageAnimation = () => {
+  anime({
+    targets: `#img-a`,
+    translateX: [
+      {value:'-=150vmin', duration: 0, elasticity: 0},
+      {value: '+=150vmin', duration: 1500, easing: 'easeOutElastic', elasticity: 1} ],
+    translateY: [
+      {value: '-=100vmin', duration: 0, elasticity: 0 }, ]
+  });
+  anime({
+    targets: `#img-b`,
+    translateX: [
+      {value:'+=150vmin', duration: 0, elasticity: 0},
+      {value: '-=150vmin', duration: 1500, delay: 150, easing: 'easeOutElastic', elasticity: 1} ],
+    translateY: [
+      {value: '-=100vmin', duration: 0, elasticity: 0 }, ],
+    complete: ()=>addPollImageListeners()
+  });
+};
+
 const getPollFromFirebase = (pollId) => {
   // get tweet id from path, search firebase for id
   firebase.database().ref(`activePolls/${pollId}`).once('value', function(data) {
@@ -86,26 +106,40 @@ const getPollFromFirebase = (pollId) => {
     viewedPolls.push(pollId);
 
     // add poll images to page
-    $('#img-a').attr('style', `background-image: url("${currentPollData.extended_entities.media[0].media_url_https}")`);
-    $('#img-b').attr('style', `background-image: url("${currentPollData.extended_entities.media[1].media_url_https}")`);
+    $('#img-a').css(`background-image`, `url("${currentPollData.extended_entities.media[0].media_url_https}")`);
+    $('#img-b').css(`background-image`,  `url("${currentPollData.extended_entities.media[1].media_url_https}")`);
 
     // add poll text
     $('#cap-text').text(groomText());
+
+    // code below fixes issue when polls are submitted via web form
+    if (currentPollData.id_str === '' || currentPollData.id_str === undefined) {
+      firebase.database().ref(`activePolls/${pollId}/id_str`).transaction(function() {
+       return pollId;
+      });
+      currentPollData.id_str = pollId;
+    };
   });
 };
 
 const addPollImageListeners = () => {
   // add event listener on click to vote
   $('#img-a').on('click', ()=>{
+    $('#img-a').off('click');
+    $('#img-b').off('click');
     voteAnimation('A', ()=>{
       incrementFirebaseVote('A');
       getPollFromFirebase(getRandomActivePollsId());
+      newImageAnimation();
     });
   });
   $('#img-b').on('click', ()=>{
+    $('#img-a').off('click');
+    $('#img-b').off('click');
     voteAnimation('B', ()=>{
       incrementFirebaseVote('B');
       getPollFromFirebase(getRandomActivePollsId());
+      newImageAnimation();
     });
   });
 };
@@ -117,8 +151,20 @@ const getActivePollsIdsArray = () => {
 };
 
 const getRandomActivePollsId = () => {
-  let randoId = activePollsIdsArray[Math.floor(Math.random() * activePollsIdsArray.length)];
-  return randoId;
+  const makeRando = () => {
+    let randoIndex = Math.floor(Math.random() * activePollsIdsArray.length);
+    let randoId = activePollsIdsArray[randoIndex];
+    activePollsIdsArray.splice(randoIndex, 1);
+    console.log(`after: ${activePollsIdsArray}`);
+    return randoId;
+  };
+  console.log(`before: ${activePollsIdsArray}`);
+  if (activePollsIdsArray.length <= 1){
+    getActivePollsIdsArray();
+    return makeRando();
+  } else {
+    return makeRando();
+  };
 };
 
 
