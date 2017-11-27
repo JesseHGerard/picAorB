@@ -85,12 +85,12 @@ const getPollFromFirebase = (pollId) => {
 
     // add event listener on click to vote
     $('#a').on('click', ()=>{
-      voteAnimation('A');
+      //voteAnimation('A');
       incrementFirebaseVote('A');
       getPollFromFirebase(getRandomActivePollsId());
     });
     $('#b').on('click', ()=>{
-      voteAnimation('B');
+      //voteAnimation('B');
       incrementFirebaseVote('B');
       getPollFromFirebase(getRandomActivePollsId());
     });
