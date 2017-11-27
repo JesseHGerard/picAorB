@@ -22,49 +22,55 @@
         </div>
       </div>
 
-      <div class="field">
-        <label class="label is-large">Enter a message here:</label>
-        <div class="control has-icons-left has-icons-right">
-          <input class="input is-large" type="text" placeholder="Which one do you like best?" id="text" class="form-control" required>
-          <span class="icon is-small is-left">
-          </span>
-          <span class="icon is-small is-right">
-          </span>
-        </div>
-      </div>
+      <div class="columns is-mobile">
+        <div class="column is-9">
 
-      <div class="field">
-        <label class="label is-large">Enter the full url for the first image here:</label>
-        <div class="control has-icons-left has-icons-right">
-          <input class="input is-large" type="text" placeholder="http://www.pictures.com/PicA.jpg" id="picAURL" class="form-control" required>
-          <span class="icon is-left">
-          </span>
-          <span class="icon is-right">
-          </span>
-        </div>
-      </div>
+          <div class="field">
+            <label class="label is-large">Enter a message here:</label>
+            <div class="control has-icons-left has-icons-right">
+              <input class="input is-large" type="text" placeholder="Which one do you like best?" id="text" class="form-control" required>
+              <span class="icon is-small is-left">
+              </span>
+              <span class="icon is-small is-right">
+              </span>
+            </div>
+          </div>
 
-      <div class="field">
-        <label class="label is-large">Enter the full url for the second image here:</label>
-        <div class="control has-icons-left has-icons-right">
-          <input class="input is-large" type="text" placeholder="http://www.pictures.com/PicB.jpg" id="picBURL" class="form-control" required>
-          <span class="icon is-medium is-left">
-          </span>
-          <span class="icon is-medium is-right">
-          </span>
+          <div class="field">
+            <label class="label is-large">Enter the full url for the first image here:</label>
+            <div class="control has-icons-left has-icons-right">
+              <input class="input is-large" type="text" placeholder="http://www.pictures.com/PicA.jpg" id="picAURL" class="form-control" required>
+              <span class="icon is-left">
+              </span>
+              <span class="icon is-right">
+              </span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label is-large">Enter the full url for the second image here:</label>
+            <div class="control has-icons-left has-icons-right">
+              <input class="input is-large" type="text" placeholder="http://www.pictures.com/PicB.jpg" id="picBURL" class="form-control" required>
+              <span class="icon is-medium is-left">
+              </span>
+              <span class="icon is-medium is-right">
+              </span>
+            </div>
+          </div>
+          <div class="field is-grouped">
+            <p class="control">
+              <a class="button is-info" id="submit">
+                Submit
+              </a>
+            </p>
+            <p class="control">
+              <a class="button is-light" id="cancel">
+                Cancel
+              </a>
+            </p>
+          </div>
         </div>
-      </div>
-      <div class="field is-grouped">
-        <p class="control">
-          <a class="button is-info" id="submit">
-            Submit
-          </a>
-        </p>
-        <p class="control">
-          <a class="button is-light" id="cancel">
-            Cancel
-          </a>
-        </p>
+        <div class="column" id="submit-ID"></div>
       </div>
 
 
@@ -131,7 +137,7 @@
       rootRef.once("child_added")
         .then(function(snapshot) {
           var childKey = snapshot.key;
-          alert("Please save this unique ID: " +childKey+  "  You will need it to track your results later.");
+          $("#submit-ID").html("<p>Congratulations!  You've successfully submitted your A/B Test.  Please save this unique ID. You will need it to track your results later:  </p>" +childKey+ "");
         });
 
   	}
