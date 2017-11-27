@@ -46,7 +46,7 @@ let client;
 if(fs.existsSync('./keys.js')){
   keys = require('./keys.js');
   client= new Twitter(keys);
-  // startTwitterStream();
+  //startTwitterStream();
 } else {
   client= new Twitter({
     consumer_key: process.env.consumer_key,
