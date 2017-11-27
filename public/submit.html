@@ -73,6 +73,7 @@
         <div class="column" id="submit-ID"></div>
       </div>
 
+
     <footer class="footer">
       <div class="container content has-text-centered">
         <a href="/"><img src="/home.png" id="you-choose" width="125" height="125" class="animated infinite tada"></a>
@@ -126,8 +127,13 @@
         extended_entities: {
           media: [{media_url_https:$("#picAURL").val().trim()}, {media_url_https:$("#picBURL").val().trim()}],
         },
-        text: $("#text").val().trim()
-
+        text: $("#text").val().trim(),
+        pic: {
+          voteA:0,
+          voteB:0,
+          voteTotal:0
+        },
+        id_str: ""
   		};
   		// console.log(userData);
       firebase.database().ref('activePolls').push(userData);
