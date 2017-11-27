@@ -15,9 +15,7 @@
 
     <div class="columns is-mobile">
       <div class="column">
-        <p class="title">Pic A or B</p>
-        <h1 style="text-align:center">Click on the image below that you like better:</h1>
-        <hr>
+        <p class="title">Click on the image below that you like better:</p>
       </div>
     </div>
     <div class="columns is-mobile"></div>
@@ -121,9 +119,9 @@ $("#shuffle").click(shuffle)
           $("#tweet-text").empty();
           $("#tweet-text").html("<p>"+textArr[iterator]+"</p>");
           $('#pic-A').attr("tweetID", idArr[iterator]);
-          picADiv.html("<p>Pic A:</p><img src=" + tweetArrA[iterator] +">");
+          picADiv.html("<p>Pic A:</p><img src=" +tweetArrA[iterator]+ ">");
           $('#pic-B').attr("tweetID", idArr[iterator]);
-          picBDiv.html("<p>Pic B:</p><img src=" + tweetArrB[iterator] +">");
+          picBDiv.html("<p>Pic B:</p><img src=" +tweetArrB[iterator]+ ">");
 
           $("#pic-A").append(picADiv);
           $("#pic-B").append(picBDiv);
