@@ -39,10 +39,11 @@ const groomText = () => {
     .replace('@picaorb', '');
 };
 
-const voteAnimation = (aorb) => {
+const voteAnimation = (aorb, callback) => {
   let voteImage;
   let rejectImage;
   const animate = () => {
+    // clicked / voted image animation
     anime({
       targets: `#img-${voteImage}`,
       translateY: [
@@ -50,7 +51,10 @@ const voteAnimation = (aorb) => {
         { value: '+=100vmin', duration: 300, easing: [.22,.01,1,.19], elasticity: 1000} ],
       scale: [
         { value: 1.5, duration: 200, easing: [.3,0,.09,1], elasticity: 1000} ],
+      zIndex: [
+        { value: 10 } ],
     });
+    // not clicked / recjected image animation
     anime({
       targets: `#img-${rejectImage}`,
       translateY: [
@@ -58,7 +62,9 @@ const voteAnimation = (aorb) => {
         { value: '+=100vmin', duration: 300, easing: [.22,.01,1,.19], elasticity: 1000} ],
       scale: [
         { value: .75, duration: 200, delay: 200, easing: [.3,0,.09,1], elasticity: 1000} ],
-    });
+      zIndex: [
+        { value: 9 } ],
+    }).finished.then(callback);
   };
 
   if (aorb == 'a' || aorb == 'A') {
@@ -80,19 +86,23 @@ const getPollFromFirebase = (pollId) => {
     viewedPolls.push(pollId);
 
     // add poll images to page
-    $('#a').attr('style', `background-image: url("${currentPollData.extended_entities.media[0].media_url_https}")`);
-    $('#b').attr('style', `background-image: url("${currentPollData.extended_entities.media[1].media_url_https}")`);
+    $('#img-a').attr('style', `background-image: url("${currentPollData.extended_entities.media[0].media_url_https}")`);
+    $('#img-b').attr('style', `background-image: url("${currentPollData.extended_entities.media[1].media_url_https}")`);
 
     // add event listener on click to vote
-    $('#a').on('click', ()=>{
-      //voteAnimation('A');
-      incrementFirebaseVote('A');
-      getPollFromFirebase(getRandomActivePollsId());
+    $('#img-a').on('click', ()=>{
+      voteAnimation('A', ()=>{
+        console.log(currentPollData.id_str);
+        incrementFirebaseVote('A');
+        getPollFromFirebase(getRandomActivePollsId());
+      });
     });
-    $('#b').on('click', ()=>{
-      //voteAnimation('B');
-      incrementFirebaseVote('B');
-      getPollFromFirebase(getRandomActivePollsId());
+    $('#img-b').on('click', ()=>{
+      voteAnimation('B', ()=>{
+        console.log(currentPollData.id_str);
+        incrementFirebaseVote('B');
+        getPollFromFirebase(getRandomActivePollsId());
+      });
     });
 
     // add poll text

@@ -2,37 +2,34 @@
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="/css/reset.css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:300" rel="stylesheet">
   <style>
-
-  #img-a {
-    position: fixed;
-    left: calc(50% - 50vmin);
+  html{
+    font-family: 'Nunito', sans-serif;
+    font-size: 10px;
+  }
+  .pic-image {
     width: 47vmin;
     height: 47vmin;
-    background-color: blue;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
     border: none;
+    position: fixed;
     top: 50%;
     border-radius: 3vmin;
     padding-left: 3vmin;
     box-shadow: 10px 10px 10px #e8e8e8;
   }
+  #img-a {
+    position: fixed;
+    left: calc(50% - 50vmin);
+    background-color: red;
+  }
   #img-b {
     position: fixed;
-    left: calc(50% + 3vmin);
-    width: 47vmin;
-    height: 47vmin;
-    background-color: red;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    border: none;
-    top: 50%;
-    border-radius: 3vmin;
-    padding-left: 3vmin;
-    box-shadow: 10px 10px 10px #e8e8e8;
+    right: calc(50% - 50vmin);
+    background-color: blue;
   }
 
   </style>
@@ -40,9 +37,17 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
-  <div id="img-a" class="pic-image"></div>
-  <div id="img-b" class="pic-image"></div>
+  <div id="main">
+    <div id="cap-box">
+      <p id="cap-text"></p>
+    </div>
+    <div id="img-a" class="pic-image">
 
+    </div>
+    <div id="img-b" class="pic-image">
+
+    </div>
+  </div>
 </body>
 
 <script>
