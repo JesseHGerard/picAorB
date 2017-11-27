@@ -127,8 +127,13 @@
         extended_entities: {
           media: [{media_url_https:$("#picAURL").val().trim()}, {media_url_https:$("#picBURL").val().trim()}],
         },
-        text: $("#text").val().trim()
-
+        text: $("#text").val().trim(),
+        pic: {
+          voteA:0,
+          voteB:0,
+          voteTotal:0
+        },
+        id_str: ""
   		};
   		// console.log(userData);
       firebase.database().ref('activePolls').push(userData);
