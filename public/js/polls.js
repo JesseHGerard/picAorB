@@ -89,24 +89,24 @@ const getPollFromFirebase = (pollId) => {
     $('#img-a').attr('style', `background-image: url("${currentPollData.extended_entities.media[0].media_url_https}")`);
     $('#img-b').attr('style', `background-image: url("${currentPollData.extended_entities.media[1].media_url_https}")`);
 
-    // add event listener on click to vote
-    $('#img-a').on('click', ()=>{
-      voteAnimation('A', ()=>{
-        console.log(currentPollData.id_str);
-        incrementFirebaseVote('A');
-        getPollFromFirebase(getRandomActivePollsId());
-      });
-    });
-    $('#img-b').on('click', ()=>{
-      voteAnimation('B', ()=>{
-        console.log(currentPollData.id_str);
-        incrementFirebaseVote('B');
-        getPollFromFirebase(getRandomActivePollsId());
-      });
-    });
-
     // add poll text
     $('#cap-text').text(groomText());
+  });
+};
+
+const addPollImageListeners = () => {
+  // add event listener on click to vote
+  $('#img-a').on('click', ()=>{
+    voteAnimation('A', ()=>{
+      incrementFirebaseVote('A');
+      getPollFromFirebase(getRandomActivePollsId());
+    });
+  });
+  $('#img-b').on('click', ()=>{
+    voteAnimation('B', ()=>{
+      incrementFirebaseVote('B');
+      getPollFromFirebase(getRandomActivePollsId());
+    });
   });
 };
 
@@ -118,12 +118,7 @@ const getActivePollsIdsArray = () => {
 
 const getRandomActivePollsId = () => {
   let randoId = activePollsIdsArray[Math.floor(Math.random() * activePollsIdsArray.length)];
-
-  if (!viewedPolls.includes(randoId)) {
-    return randoId;
-  } else {
-    getRandomActivePollsId();
-  };
+  return randoId;
 };
 
 
@@ -131,9 +126,6 @@ const getRandomActivePollsId = () => {
 
 $(document).ready(function() {
   getPollFromFirebase(getPollIdFromUrl());
-
-
-
   getActivePollsIdsArray();
-
+  addPollImageListeners();
 });
