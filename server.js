@@ -46,7 +46,7 @@ let client;
 if(fs.existsSync('./keys.js')){
   keys = require('./keys.js');
   client= new Twitter(keys);
-  startTwitterStream();
+  //startTwitterStream();
 } else {
   client= new Twitter({
     consumer_key: process.env.consumer_key,
@@ -54,7 +54,7 @@ if(fs.existsSync('./keys.js')){
     access_token_key: process.env.access_token_key,
     access_token_secret: process.env.access_token_secret
   });
-  startTwitterStream();
+  //startTwitterStream();
 };
 
 
@@ -78,7 +78,6 @@ const replyTweetWithLink = (event) => {
 
   client.post('statuses/update', {
     //assemble reply message
-    console.log(event);
     status: `@${event.user.screen_name} https://picaorb.herokuapp.com/poll/${event.id_str}`,
 
     in_reply_to_status_id: event.id_str,
