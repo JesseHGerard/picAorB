@@ -2,11 +2,12 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css?family=Nunito:300" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Nunito:200,300" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="/reset.css">
   <style>
     html{
       font-family: 'Nunito', sans-serif;
+      font-weight: 300;
       font-size: 10px;
     }
     body {
@@ -23,7 +24,7 @@
       position: fixed;
       top: 40%;
       border-radius: 3vmin;
-      box-shadow: 10px 10px 10px #939393;
+      box-shadow: 10px 10px 10px rgba(0, 0, 0, .2);
     }
     #img-a {
       position: fixed;
@@ -42,7 +43,7 @@
       border-radius: 3vmin;
       /*border: .3rem solid #1c81bc;*/
       /* offset-x | offset-y | blur-radius | color */
-      box-shadow: 10px 10px 10px #939393;
+      box-shadow: 10px 10px 10px rgba(0, 0, 0, .2);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -51,17 +52,63 @@
     #cap-text{
       margin: 4vmin;
       font-size: 4rem;
-      color: #1c81bc;
+      /*color: #1c81bc;*/
     }
     .percentage {
-      transform: translate(-50%, -50%);
+      position: fixed;
+      font-size: 8rem;
+      top: calc(40% + 25vmin);
+      z-index: -1;
+      display: inline-block;
     }
     #per-a {
-
+      left: calc(50% - 25vmin);
+      transform: translate(-50%, -50%);
     }
     #per-b {
-
+      right: calc(50% - 25vmin);
+      transform: translate(50%, -50%);
     }
+    #title {
+      color: white;
+      position: absolute;
+      top: -5rem;
+      transform: translateX(-15vmin);
+      font-size: 4rem;
+      font-weight: 200;
+    }
+    #profile-pic {
+      align-self: flex-start;
+      height: 8rem;
+      width: 8rem;
+      border-radius: 4rem;
+      background-color: white;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      position: absolute;
+      z-index: 3;
+      top: -5rem;
+      transform: translateX(-35vmin);
+    }
+    .circle {
+      height: 40vmin;
+      width: 40vmin;
+      z-index: -3;
+      position: fixed;
+      top: calc(40% + 25vmin);
+    }
+    #cir-a {
+      left: calc(50% - 25vmin);
+      transform: translate(-50%, -50%);
+    }
+    #cir-b {
+      right: calc(50% - 25vmin);
+      transform: translate(50%, -50%);
+    }
+
+
+
 
   </style>
   <!-- JQUERY CDN -->
@@ -74,14 +121,22 @@
   <div id="main">
 
     <div id="cap-box">
+      <div id="profile-pic"></div>
+      <h3 id="title">pic A or B</h3>
       <p id="cap-text"></p>
     </div>
 
     <div id="img-a" class="pic-image"></div>
     <div id="img-b" class="pic-image"></div>
 
-    <!-- <div id="per-a" class="percentage">70%</div>
-    <div id="per-b" class="percentage">30%</div> -->
+    <div id="per-a" class="percentage">70%</div>
+    <div id="per-b" class="percentage">30%</div>
+    <svg id="cir-a" class="circle" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <circle class="big" cx="100" cy="100" r="100"/>
+    </svg>
+    <svg id="cir-b" class="circle" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <circle class="big" cx="100" cy="100" r="100"/>
+    </svg>
   </div>
 </body>
 

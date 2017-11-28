@@ -133,7 +133,10 @@
           voteB:0,
           voteTotal:0
         },
-        id_str: ""
+        id_str: "",
+        user: {
+          profile_background_image_url_https: ""
+        }
   		};
   		// console.log(userData);
       firebase.database().ref('activePolls').push(userData);

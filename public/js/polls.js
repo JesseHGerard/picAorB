@@ -5,6 +5,14 @@ let currentPollData;
 let activePollsIdsArray;
 let viewedPolls = [];
 
+const colors = {
+  _bright: ['#e500a3', '#00ffff', '#c21690', '#e5b600', '#66ffff', '#f0d366', '#f066c8', '#2decec'],
+  get bright() {
+    return this._bright[Math.floor(Math.random() * this._bright.length)];
+  },
+  _light: [],
+  _dark: [],
+};
 
 // configure firebase
 var config = {
@@ -20,14 +28,17 @@ let database = firebase.database();
 
 // increments a or b vote, of currentPollData id, and voteTotal, takes argument 'A' or 'B' as a string
 const incrementFirebaseVote = (aOrB) => {
+  // increment local variable for display
+  currentPollData.pic[`vote${aOrB}`]++;
+  currentPollData.pic[`voteTotal`]++;
+  updateVotePercentages();
+
   firebase.database().ref(`activePolls/${currentPollData.id_str}/pic/vote${aOrB}`).transaction(function(propertyInt) {
    return propertyInt + 1;
   });
   firebase.database().ref(`activePolls/${currentPollData.id_str}/pic/voteTotal`).transaction(function(propertyInt) {
     return propertyInt + 1;
   });
-  // increment local variable for display
-  currentPollData.pic[`vote${aOrB}`]++;
 };
 
 
@@ -41,13 +52,28 @@ const groomText = () => {
     .replace('@picaorb', '');
 };
 
+const updateVotePercentages = () => {
+  let perA = Math.round((currentPollData.pic.voteA * 100) / currentPollData.pic.voteTotal);
+
+  $('#per-a').text(`${perA}%`);
+  $('#per-b').text(`${100 - perA}%`);
+
+  $('#cir-a .big').css('fill', colors.bright).attr('r', `${perA}`);
+  $('#cir-b .big').css('fill', colors.bright).attr('r', `${100 - perA}`);
+};
+
 const voteAnimation = (aorb, callback) => {
   let voteImage;
   let rejectImage;
   const animate = () => {
+    anime({
+      targets: '#cap-text',
+      opacity: [{value: 0, duration: 500, easing: 'linear'}],
+    });
     // clicked / voted image animation
     anime({
       targets: `#img-${voteImage}`,
+      zIndex: [{ value: 10, duration: 0}],
       translateY: [
         { value: '-=10vmin', duration: 200, easing: [.3,0,.09,1], elasticity: 1000},
         { value: '+=110vmin', duration: 300, easing: [.22,.01,1,.19], elasticity: 1000} ],
@@ -58,6 +84,7 @@ const voteAnimation = (aorb, callback) => {
     // not clicked / recjected image animation
     anime({
       targets: `#img-${rejectImage}`,
+      zIndex: [{ value: 9, duration: 0}],
       translateY: [
         { value: '-=10vmin', duration: 200, delay: 200, easing: [.3,0,.09,1], elasticity: 1000},
         { value: '+=110vmin', duration: 300, easing: [.22,.01,1,.19], elasticity: 1000} ],
@@ -80,21 +107,28 @@ const voteAnimation = (aorb, callback) => {
 
 const newImageAnimation = () => {
   anime({
+    targets: '#cap-text',
+    opacity: [{value: 1, delay: 1800, duration: 1000, easing: 'linear'}],
+  });
+  anime({
     targets: `#img-a`,
     translateX: [
-      {value:'-=150vmin', duration: 0, elasticity: 0},
+      {value:'-=150vmin', delay: 1000, duration: 0, elasticity: 0},
       {value: '+=150vmin', duration: 1500, easing: 'easeOutElastic', elasticity: 1} ],
     translateY: [
-      {value: '-=100vmin', duration: 0, elasticity: 0 }, ]
+      {value: '-=100vmin', delay: 1000, duration: 0, elasticity: 0 }, ]
   });
   anime({
     targets: `#img-b`,
     translateX: [
-      {value:'+=150vmin', duration: 0, elasticity: 0},
+      {value:'+=150vmin', duration: 0, delay: 1000, elasticity: 0},
       {value: '-=150vmin', duration: 1500, delay: 150, easing: 'easeOutElastic', elasticity: 1} ],
     translateY: [
-      {value: '-=100vmin', duration: 0, elasticity: 0 }, ],
-    complete: ()=>addPollImageListeners()
+      {value: '-=100vmin', delay: 1000, duration: 0, elasticity: 0 }, ],
+    complete: ()=>{
+      addPollImageListeners();
+      updateVotePercentages();
+    }
   });
 };
 
@@ -112,6 +146,15 @@ const getPollFromFirebase = (pollId) => {
     // add poll text
     $('#cap-text').text(groomText());
 
+    // add profile image
+    let profileUrl = currentPollData.user.profile_background_image_url_https;
+    if (profileUrl == '') {
+      $('#profile-pic').css("background-image", "");
+      $('#profile-pic').css("background-color", colors.bright);
+    } else {
+      $('#profile-pic').css(`background-image`, `url("${profileUrl}")`);
+    };
+
     // code below fixes issue when polls are submitted via web form
     if (currentPollData.id_str === '' || currentPollData.id_str === undefined) {
       firebase.database().ref(`activePolls/${pollId}/id_str`).transaction(function() {
@@ -127,8 +170,8 @@ const addPollImageListeners = () => {
   $('#img-a').on('click', ()=>{
     $('#img-a').off('click');
     $('#img-b').off('click');
+    incrementFirebaseVote('A');
     voteAnimation('A', ()=>{
-      incrementFirebaseVote('A');
       getPollFromFirebase(getRandomActivePollsId());
       newImageAnimation();
     });
@@ -136,8 +179,8 @@ const addPollImageListeners = () => {
   $('#img-b').on('click', ()=>{
     $('#img-a').off('click');
     $('#img-b').off('click');
+    incrementFirebaseVote('B');
     voteAnimation('B', ()=>{
-      incrementFirebaseVote('B');
       getPollFromFirebase(getRandomActivePollsId());
       newImageAnimation();
     });
