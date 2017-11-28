@@ -76,8 +76,9 @@ $("#pic-B").click(vote);
 $("#shuffle").click(shuffle)
 
     //this function takes a snapshot of the database, then looks for any tweets that have two images
-    //if a tweet has two pics, those pics are pushed to arrays, the randomizer selects a random pair of images
-    //from the arrays and displays them
+    //if a tweet has two pics, those pics are pushed to arrays, the arrys are then viewed in order by
+    //index number unless the user clicks the shuffle button, then the randomizer selects a random
+    //pair of images from the arrays and displays them
     function displaySequentially() {
 
       var ref = firebase.database().ref("activePolls");
@@ -92,8 +93,8 @@ $("#shuffle").click(shuffle)
             if (snap.hasChild("extended_entities")) {
               var picA = snap.child('extended_entities/media').child('0/media_url_https').val();
               var picB = snap.child('extended_entities/media').child('1/media_url_https').val();
-              console.log(picA);
-              console.log(picB);
+              // console.log(picA);
+              // console.log(picB);
               var picID = snap.key;
               // console.log("picID is " + picID);
               // console.log("snap.key is " + snap.key);
@@ -128,6 +129,8 @@ $("#shuffle").click(shuffle)
         });
     };
 
+    //if the user clicks the shuffle button, a random pair of pic will display.  After the
+    //random pair displays, the remaining pics are displayed sequentially by index
     function shuffle() {
       var ref = firebase.database().ref("activePolls");
       ref.orderByChild(`${tweetID}`).once("value", function(snapshot) {
@@ -145,7 +148,7 @@ $("#shuffle").click(shuffle)
       var chosen = this.id;
       var chosenID = $(this).attr("tweetID")
       // console.log(this);
-      console.log(chosenID);
+      //console.log(chosenID);
 
       firebase.database().ref('activePolls/"chosenID"').child('pic').once('value', function(data) {
         // console.log(chosen=='pic-A');

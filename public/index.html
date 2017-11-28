@@ -87,27 +87,26 @@
 var tweetToTrack;
 var tweetPic;
 
-//this function stores the ID entered on the form input and stores
-//it in the variable tweetToTrack
+//this function stores the ID entered on the form input and stores it in the variable tweetToTrack
 //It then calls the trackStatus function
 $("#track-submit").on("click", function(event) {
   event.preventDefault();
   tweetToTrack = $("#track-status").val().trim();
-  console.log(tweetToTrack);
+  // console.log(tweetToTrack);
   $('#track-status').val('');
   trackStatus();
 });
 
 // this function gets called when a user submits a request via the input field
 // it takes a snapshot of the database, then searches for the ID submitted by the User
-// It displays the pictures of the A/B test and will need to eventually show the score of each pic
+// It displays the pictures of the A/B test and the score of each pic
   function trackStatus() {
     var query = firebase.database().ref('activePolls');
     query.once('value')
     .then (function(snapshot){
       snapshot.forEach(function(snap) {
-        console.log(snap.val());
-        console.log(snap.key);
+        // console.log(snap.val());
+        // console.log(snap.key);
         // var idString = (snap.child('id_str').val());
         if (snap.key == tweetToTrack) {
           var picA = snap.child('extended_entities/media').child('0/media_url_https').val();
