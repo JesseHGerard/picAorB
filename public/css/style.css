@@ -49,15 +49,15 @@ div.columns.is-mobile {
   font-size: 25px;
 }
 div#pic-A.column.tile.box{
-  height: 350;
-  width: 350;
-  background-color: white;
+/*   height: 350;
+width: 350;
+ */  background-color: white;
   color: #209cee;
 }
 div#pic-B.column.tile.box{
-  height: 350;
-  width: 350;
-  background-color: white;
+/*   height: 350;
+width: 350;
+ */  background-color: white;
   color: #209cee;
 }
 #tweet-text.column.has-text-centered {
@@ -66,4 +66,8 @@ div#pic-B.column.tile.box{
 }
 label.label.is-large {
   color: white;
+}
+picADiv, picBDiv {
+  height: 400px;
+  width: 400px;
 }

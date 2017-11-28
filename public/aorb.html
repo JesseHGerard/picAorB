@@ -120,9 +120,9 @@ $("#shuffle").click(shuffle)
           $("#tweet-text").empty();
           $("#tweet-text").html("<p>"+textArr[iterator]+"</p>");
           $('#pic-A').attr("tweetID", idArr[iterator]);
-          picADiv.html("<p>Pic A:</p><img src=" +tweetArrA[iterator]+ ">");
+          picADiv.html(`<p>Pic A:</p><img src="${tweetArrA[iterator]}" width="400" height="400">`);
           $('#pic-B').attr("tweetID", idArr[iterator]);
-          picBDiv.html("<p>Pic B:</p><img src=" +tweetArrB[iterator]+ ">");
+          picBDiv.html(`<p>Pic B:</p><img src="${tweetArrB[iterator]}" width="400" height="400">`);
 
           $("#pic-A").append(picADiv);
           $("#pic-B").append(picBDiv);
