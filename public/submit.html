@@ -59,7 +59,7 @@
           </div>
           <div class="field is-grouped">
             <p class="control">
-              <a class="button is-info" id="submit">
+              <a class="button is-link" id="submit">
                 Submit
               </a>
             </p>
@@ -144,6 +144,10 @@
           var childKey = snapshot.key;
           $("#submit-ID").html("<p>Congratulations!  You've successfully submitted your A/B Test.  Please save this unique ID. You will need it to track your results later:  </p>" +childKey+ "");
         });
+        //clears form fields upon submission
+        $("#text").val("");
+        $("#picAURL").val("");
+        $("#picBURL").val("");
 
   	}
   	else
@@ -151,6 +155,7 @@
   		alert("Please fill out all fields before submitting!");
   	}
   		return false;
+
   	});
 
   </script>
