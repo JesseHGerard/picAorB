@@ -155,10 +155,8 @@ const getRandomActivePollsId = () => {
     let randoIndex = Math.floor(Math.random() * activePollsIdsArray.length);
     let randoId = activePollsIdsArray[randoIndex];
     activePollsIdsArray.splice(randoIndex, 1);
-    console.log(`after: ${activePollsIdsArray}`);
     return randoId;
   };
-  console.log(`before: ${activePollsIdsArray}`);
   if (activePollsIdsArray.length <= 1){
     getActivePollsIdsArray();
     return makeRando();
