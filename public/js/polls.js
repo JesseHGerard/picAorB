@@ -10,8 +10,6 @@ const colors = {
   get bright() {
     return this._bright[Math.floor(Math.random() * this._bright.length)];
   },
-  _light: [],
-  _dark: [],
 };
 
 // configure firebase
@@ -154,6 +152,9 @@ const getPollFromFirebase = (pollId) => {
     } else {
       $('#profile-pic').css(`background-image`, `url("${profileUrl}")`);
     };
+
+    // change url
+    history.pushState({}, "pic A or B", `/poll/${pollId}`);
 
     // code below fixes issue when polls are submitted via web form
     if (currentPollData.id_str === '' || currentPollData.id_str === undefined) {
