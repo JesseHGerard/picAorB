@@ -25,19 +25,9 @@ const startTwitterStream = () => {
 
     console.log(`received: ${event.text}\n`);
 
+    addPollToFirebase(event);
 
-
-    // check tweet for two images
-    if (event.extended_entities.media[0].media_url_https !== undefined && event.extended_entities.media[1].media_url_https !== undefined) {
-
-      addPollToFirebase(event);
-
-      replyTweetWithLink(event);
-
-    } else {
-      replyTweetWithFormatError();
-    };
-
+    replyTweetWithLink(event);
   });
 
   stream.on('error', function(error) {
@@ -81,27 +71,6 @@ var config = {
 };
 firebase.initializeApp(config);
 let database = firebase.database();
-
-
-const replyTweetWithFormatError = () => {
-
-  client.post('statuses/update', {
-    //assemble reply message
-    status: `@${event.user.screen_name} Your tweet needs to include two images to choose from. Try again!`,
-
-    in_reply_to_status_id: event.id_str,
-    in_reply_to_status_id_str: event.id_str,
-    in_reply_to_user_id: event.user.id,
-    in_reply_to_user_id_str: event.user.id_str,
-    in_reply_to_screen_name: event.user.screen_name,
-
-    },  function(error, tweet, response) {
-    if(error) {console.log(error)};
-
-    console.log(`reply: ${tweet.text}\n`);
-
-  });
-};
 
 
 
