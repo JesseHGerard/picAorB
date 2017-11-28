@@ -44,12 +44,21 @@ footer.footer{
 }
 div.columns.is-mobile {
   background-color: #e8f5fd;
+  font-size: 25px;
 }
 div#pic-A.column.tile.box{
-  background-color: #209cee;
-  color: white;
+  height: 350;
+  width: 350;
+  background-color: white;
+  color: #209cee;
 }
 div#pic-B.column.tile.box{
-  background-color: #209cee;
-  color: white;
+  height: 350;
+  width: 350;
+  background-color: white;
+  color: #209cee;
+}
+#tweet-text.column.has-text-centered {
+  font-size: 25px;
+  background-color: #e8f5fd;
 }
