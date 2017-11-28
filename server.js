@@ -1,5 +1,3 @@
-// START TWITTER STREAM IS COMMENTED OUT FOR TESTING 49 57
-
 let fs = require('fs');
 let express = require('express');
 let bodyParser = require('body-parser');
